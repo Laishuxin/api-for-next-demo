@@ -22,7 +22,7 @@ export class ProductsController {
 
   @Get()
   findAll() {
-    return null;
+    return this.productsService.findAll();
   }
 
   @Get(':id')

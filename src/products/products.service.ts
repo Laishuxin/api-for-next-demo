@@ -9,7 +9,7 @@ export class ProductsService {
   }
 
   findAll() {
-    return `This action returns all products`;
+    return [{ id: 1, name: 'product1' }];
   }
 
   findOne(id: number) {
