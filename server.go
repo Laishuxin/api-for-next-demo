@@ -1,29 +1,32 @@
 package main
 
 import (
-	"fmt"
+	"go_gin_2/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-const PORT = 8888
+// const PORT = 8888
 const PREFIX = "/api"
 
+var (
+	db *gorm.DB = config.SetupDatabaseConnection()
+)
+
 func main() {
+
+	defer config.CloseDatabaseConnection(db)
 	router := gin.Default()
 
-	v1 := router.Group(PREFIX)
+	api := router.Group(PREFIX)
 
-	v1.GET("", func(ctx *gin.Context) {
-		fmt.Printf("get.")
+	api.GET("", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": "ok",
 		})
 	})
 
-	if err := router.Run(fmt.Sprintf(":%d", PORT)); err != nil {
-		fmt.Printf("err: %v\n", err)
-		panic(err)
-	}
+	router.Run()
 }
